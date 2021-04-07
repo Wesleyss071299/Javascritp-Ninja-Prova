@@ -7,12 +7,20 @@
 	--text-color-secondary: #868686;
 }
 
+body {
+	margin: 0;
+}
+
 li {
 	display: inline;
 }
 
 body {
 	margin: 0;
+}
+
+button {
+	border: none;
 }
 
 hr {
@@ -24,6 +32,21 @@ h1 {
 	margin-block-end: 0;
 }
 
+.title {
+	font-size: 1.5em;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--text-color-primary);
+}
+
+.new-bet-title {
+	text-transform: uppercase;
+}
+
+
+
+/* Navbar */
+
 header {
 	border-bottom: 2px solid #ebebeb;
 }
@@ -33,10 +56,9 @@ header {
 	justify-content: space-around;
 	align-items: center;
 	flex-wrap: wrap;
-	margin-bottom: -4px;
+	font-size: 20px;
 	font-style: italic;
-	font-weight: 700;
-	font-size: 1.25em;
+	font-weight: 900;
 	color: var(--text-color-primary);
 }
 
@@ -65,11 +87,141 @@ header {
 
 .nav-link {
 	display: inline-flex;
-    text-decoration: none;
-	margin: 0 40px;
+	text-decoration: none;
+	margin: 0 35px;
 	color: var(--text-color-primary);
 }
 
 .nav-link svg {
 	margin-left: 10px;
+}
+
+/* ===== */
+
+/* Bet */
+.bet-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: baseline;
+	margin: 75px auto;
+	max-width: 1440px;
+}
+
+.game-container {
+	max-width: 750px;
+	padding: 10px 10px;
+	margin-right: 100px;
+}
+
+.game-info {
+	max-width: 750px;
+	padding: 0 10px;
+}
+
+
+.actions {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+/* ===== */
+
+/* Cart */
+
+.cart-container {
+	border: 1px solid #e2e2e2;
+	border-radius: 10px;
+	width: 317px;
+}
+
+.cart-info {
+	border: 1px solid #e2e2e2;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+	width: 317px;
+}
+
+.cart-footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #e2e2e2;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	height: 96px;
+}
+
+/* ===== */
+
+/* Buttons */
+
+.button {
+	background: none;
+	padding: 17px 25px;
+	border-radius: 10px;
+	font-weight: 550;
+	font-size: 1em;
+	cursor: pointer;
+}
+
+.buttons-game {
+	flex-direction: row;
+}
+
+.buttons-game button {
+	width: 113px;
+	height: 34px;
+	border-radius: 100px 100px 100px 100px;
+	border: yellowgreen 2px solid;
+}
+
+.button-save {
+	display: flex;
+	align-items: center;
+	font-size: 2.1875em;
+	color: var(--green-primary);
+}
+
+.icon-button-save {
+	margin-left: 15px;
+}
+
+
+.button-action {
+	margin-top: 5px;
+	margin-right: 25px;
+	border: 1px solid #27c383;
+	color: #27c383;
+}
+
+.button-action-add {
+	margin-top: 5px;
+	margin-right: 25px;
+	background-color: #27C383;
+	border: 1px solid #27c383;
+	color: #FFFFFF;
+}
+
+.button_save svg {
+	margin-left: 10px;
+	font-size: 25px;
+}
+/* ===== */
+
+
+/* Footer */
+
+footer {
+	border-top: 2px solid #EBEBEB;
+	color: var(--text-color-primary);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 190px;
+}
+
+footer p {
+	padding: 28px;
 }
