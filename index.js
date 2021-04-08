@@ -5,6 +5,7 @@
     var app = (function appController() {
         var $buttonsGame = $('[data-js="buttons-game"]').get();
         var $gameInfo = $('p[data-js="info"]').get();
+        var $numbers = $('section[data-js="numbers"]').get();
         var allGames = []
         var currentGame = []
         return {
@@ -42,6 +43,7 @@
             setGameType: function setGameType(type) {
                 currentGame = app.getCurrentGame(type)[0]
                 $gameInfo.textContent = currentGame.description
+                app.createButtonsGameBet(currentGame.range);
             },
 
             getCurrentGame: function getCurrentGame (type) {
@@ -69,7 +71,24 @@
                     $button.setAttribute('data-game-type', item.type)         
                 })
             },
+            removeChild: function removeChild (parent) {
+                while (parent.firstChild) {
+                    parent.removeChild(parent.firstChild);
+                }
+              },
+            createButtonsGameBet: function createButtonsGameBet(max){
+                if ($numbers.firstChild) {
+                    app.removeChild($numbers)
+                }
+                for(var i = 1; i <= max; i++) {
+                    var $number = document.createElement('div');
+                    $number.setAttribute('class', 'game-number')
+                    var $numberText = document.createTextNode(i < 10 ? '0' + i : i)
+                    $number.appendChild($numberText)
 
+                    $numbers.appendChild($number)
+                }
+            },
             isReady: function isReady() {
                 return this.readyState === 4 && this.status === 200;
             },
