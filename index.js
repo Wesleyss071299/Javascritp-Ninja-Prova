@@ -8,6 +8,7 @@
         var $numbers = $('section[data-js="numbers"]').get();
         var allGames = []
         var currentGame = []
+        var betNumbers = []
         return {
             init: function init() {
                 this.gameInfo();
@@ -16,11 +17,26 @@
 
             initEvents: function initEvents() {
                 document.addEventListener('click',  function(e) {
+
                     var dataset = e.target.dataset
-                    console.log(dataset.gameType)
+                   
                     if (dataset.gameType) 
                         return app.setGameType(dataset.gameType)
+                    if (dataset.number)
+                        return app.selectNumber(dataset.number)
                 }, true)
+            },
+            colorNumbers : function colorNumbers () {
+                betNumbers.map(function (number) {
+                  var element = $('div[data-number="' + number + '"]').get()
+                  element.classList.add('game-number_selected')  
+                })
+            },
+            selectNumber : function selectNumber(currentNumber) {
+                betNumbers.push(currentNumber)
+                console.log(betNumbers)
+                app.colorNumbers()
+                
             },
 
             gameInfo: function gameInfo() {
@@ -41,6 +57,8 @@
             },
 
             setGameType: function setGameType(type) {
+                
+                betNumbers = []
                 currentGame = app.getCurrentGame(type)[0]
                 $gameInfo.textContent = currentGame.description
                 app.createButtonsGameBet(currentGame.range);
@@ -83,9 +101,9 @@
                 for(var i = 1; i <= max; i++) {
                     var $number = document.createElement('div');
                     $number.setAttribute('class', 'game-number')
+                    $number.setAttribute('data-number', i)
                     var $numberText = document.createTextNode(i < 10 ? '0' + i : i)
                     $number.appendChild($numberText)
-
                     $numbers.appendChild($number)
                 }
             },

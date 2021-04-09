@@ -239,6 +239,9 @@ header {
 	cursor: pointer;
 	color: #fff;
   }
+  .game-number_selected {
+	background: var(--green-primary);
+  }
 
   
 /* ===== */
