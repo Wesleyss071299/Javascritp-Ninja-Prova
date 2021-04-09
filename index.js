@@ -32,10 +32,48 @@
                   element.classList.add('game-number_selected')  
                 })
             },
+            removeNumber: function removeNumber(number){
+                var item = $('div[data-number="' + number + '"]').get()
+                item.classList.remove('game-number_selected')
+            },
+            numberBetExist: function numberBetExist(array, number){
+                return array.some((item) => {
+                    return item == number
+                })
+            },
+            arrayRemove: function arrayRemove(arr, value) { 
+                return arr.filter(function(ele){ 
+                    return ele != value; 
+                });
+            },
             selectNumber : function selectNumber(currentNumber) {
-                betNumbers.push(currentNumber)
+                var game = allGames.filter( (item) => {
+                    return item.type == currentGame.type
+                })[0]
+
+                if (app.numberBetExist(betNumbers, currentNumber)){
+                    console.log('Item reperido')
+                    betNumbers = app.arrayRemove(betNumbers, currentNumber)
+                    console.log(betNumbers)
+                    app.removeNumber(currentNumber)
+                    return                    
+                }
+
+                if (game['max-number'] === betNumbers.length){
+                    var last = betNumbers.slice(-1)[0]
+                    betNumbers.pop();
+                    betNumbers.push(currentNumber)
+                    app.removeNumber(last)
+                    app.colorNumbers()
+                }
+                
+                
+                if (game['max-number'] > betNumbers.length){
+                    betNumbers.push(currentNumber)
+                    app.colorNumbers()
+                }
                 console.log(betNumbers)
-                app.colorNumbers()
+               
                 
             },
 
@@ -116,3 +154,10 @@
     app.init();
 
 })(window.DOM);
+
+
+// [1, 2, 3] (2)
+// achar posição
+// remover posição
+// remover color 
+// [1, 3]
