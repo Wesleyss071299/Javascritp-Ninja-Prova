@@ -6,6 +6,7 @@
         var $buttonsGame = $('[data-js="buttons-game"]').get();
         var $gameInfo = $('p[data-js="info"]').get();
         var $numbers = $('section[data-js="numbers"]').get();
+        var $cart = $('div[data-cart="cart-body"]').get();
         var allGames = []
         var currentGame = []
         var betNumbers = []
@@ -28,7 +29,22 @@
                         return app.cleanGame()
                     if (dataset.button === 'random-game')
                         return app.completeGame()
+                    if (dataset.button === 'add-cart')
+                        return app.addCart()
                 }, true)
+            },
+            addCart: function addCart() {
+                var item = document.createElement("div");
+                var txt = document.createTextNode("Aposta");
+                item.appendChild(txt);
+                $cart.appendChild(item)
+                console.log(item)
+            },
+            renderCart: function renderCart() {
+
+            },
+            renderCartItem: function renderCartItem() {
+
             },
             completeGame: function completeGame(){
                 var game = allGames.filter(function (game) {
