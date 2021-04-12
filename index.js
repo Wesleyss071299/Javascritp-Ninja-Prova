@@ -24,7 +24,17 @@
                         return app.setGameType(dataset.gameType)
                     if (dataset.number)
                         return app.selectNumber(dataset.number)
+                    if (dataset.button === 'clean-game')
+                        return app.cleanGame()
                 }, true)
+            },
+            cleanGame: function cleanGame() {
+                betNumbers = []
+                var $buttonSelected = $('.game-number_selected').get()
+                if ($buttonSelected) {
+                  $buttonSelected.classList.remove('game-number_selected')
+                  cleanGame()
+                }
             },
             colorNumbers : function colorNumbers () {
                 betNumbers.map(function (number) {
@@ -56,7 +66,7 @@
                     betNumbers = app.arrayRemove(betNumbers, currentNumber)
                     console.log(betNumbers)
                     app.removeNumber(currentNumber)
-                    return                    
+                    return                      
                 }
 
                 if (game['max-number'] === betNumbers.length){
