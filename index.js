@@ -26,7 +26,27 @@
                         return app.selectNumber(dataset.number)
                     if (dataset.button === 'clean-game')
                         return app.cleanGame()
+                    if (dataset.button === 'random-game')
+                        return app.completeGame()
                 }, true)
+            },
+            completeGame: function completeGame(){
+                var game = allGames.filter(function (game) {
+                    return game.type === currentGame.type
+                })[0]
+
+                for (var i = 1; i <= game['max-number']; i++) {
+                    var number = Math.ceil(Math.random() * game.range)
+                    console.log('number antes' + number )
+                    if (app.numberBetExist(betNumbers, number)) {
+                        i--;
+                        console.log('number ' + number )
+                        console.log('i ' + i)
+                    }
+                    betNumbers.push(number)    
+                }
+                app.colorNumbers()
+
             },
             cleanGame: function cleanGame() {
                 betNumbers = []
@@ -166,8 +186,3 @@
 })(window.DOM);
 
 
-// [1, 2, 3] (2)
-// achar posição
-// remover posição
-// remover color 
-// [1, 3]
