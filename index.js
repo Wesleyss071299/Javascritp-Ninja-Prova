@@ -7,6 +7,7 @@
         var $gameInfo = $('p[data-js="info"]').get();
         var $numbers = $('section[data-js="numbers"]').get();
         var $cart = $('div[data-cart="cart-body"]').get();
+        var $cartTotal = $('p[data-cart="total"]').get()
         var allGames = []
         var currentGame = []
         var betNumbers = []
@@ -21,6 +22,7 @@
                 document.addEventListener('click',  function(e) {
 
                     var dataset = e.target.dataset
+                    var element = e.target
                    
                     if (dataset.gameType) 
                         return app.setGameType(dataset.gameType)
@@ -32,19 +34,40 @@
                         return app.completeGame()
                     if (dataset.button === 'add-cart')
                         return app.addCart()
+                    if (dataset.button === 'delete')
+                        return app.deleteBet(element) 
                 }, true)
             },
-            addCart: function addCart() {
-                // var element = app.renderCartItem()
-                // $cart.appendChild(element)
-                // console.log($cart)
-                app.renderCart(currentGame, betNumbers)
+            deleteBet: function deleteBet(item) {
+         
+                bets = bets.filter(function (game) {
+                    return game.id != item.dataset.value
+                  })
+              
+                app.getTotalBets(bets)
+                $cart.removeChild(item.parentElement)
+               
                 console.log(bets)
+
             },
+            getTotalBets: function getTotalBets(bets){
+                var total = bets.reduce(function(accumulated, actual) {
+                    return accumulated + Number(actual.price)
+                }, 0)
+
+                $cartTotal.textContent = 'Total: R$ ' + total
+            },
+            addCart: function addCart() {
+                app.renderCart(currentGame, betNumbers)
+                app.getTotalBets(bets)
+                app.cleanGame()
+            },
+
             renderCart: function renderCart(game, numbers) {
                 allGames.map(function (item) {
                     if (item.type === game.type) {
                       var currentBet = {
+                        id: app.createId(),
                         type: item.type,
                         price: item.price,
                         color: item.color,
@@ -56,6 +79,9 @@
                     }
                   })
             },
+            createId: function createId() {
+                return Date.now();
+            },
             renderCartItem: function renderCartItem(bet) {
                 var cartContainer = document.createElement('div')
                 var cartButtonDelete = document.createElement('button')
@@ -64,9 +90,12 @@
                 var betTitletext = document.createElement('p')
                 var betPrice = document.createElement('p')
 
+                cartButtonDelete.setAttribute('data-button', 'delete')
+                cartButtonDelete.setAttribute('data-value', bet.id)
+                cartButtonDelete.textContent = 'Deletar'
                 numbersBettext.textContent = bet.numbers
                 betTitletext.textContent = bet.type
-                betPrice.textContent = 'R$ ' + bet.price + '0'
+                betPrice.textContent = 'R$ ' + bet.price
               
                 cartContainer.appendChild(cartButtonDelete)
 
