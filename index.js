@@ -10,6 +10,7 @@
         var allGames = []
         var currentGame = []
         var betNumbers = []
+        var bets = []
         return {
             init: function init() {
                 this.gameInfo();
@@ -34,17 +35,48 @@
                 }, true)
             },
             addCart: function addCart() {
-                var item = document.createElement("div");
-                var txt = document.createTextNode("Aposta");
-                item.appendChild(txt);
-                $cart.appendChild(item)
-                console.log(item)
+                // var element = app.renderCartItem()
+                // $cart.appendChild(element)
+                // console.log($cart)
+                app.renderCart(currentGame, betNumbers)
+                console.log(bets)
             },
-            renderCart: function renderCart() {
-
+            renderCart: function renderCart(game, numbers) {
+                allGames.map(function (item) {
+                    if (item.type === game.type) {
+                      var currentBet = {
+                        type: item.type,
+                        price: item.price,
+                        color: item.color,
+                        numbers: numbers
+                      }
+                      var cartItem = app.renderCartItem(currentBet)
+                      bets.push(currentBet)
+                      $cart.appendChild(cartItem)
+                    }
+                  })
             },
-            renderCartItem: function renderCartItem() {
+            renderCartItem: function renderCartItem(bet) {
+                var cartContainer = document.createElement('div')
+                var cartButtonDelete = document.createElement('button')
+                var cartItemContainer = document.createElement('div')
+                var numbersBettext = document.createElement('p')
+                var betTitletext = document.createElement('p')
+                var betPrice = document.createElement('p')
 
+                numbersBettext.textContent = bet.numbers
+                betTitletext.textContent = bet.type
+                betPrice.textContent = 'R$ ' + bet.price + '0'
+              
+                cartContainer.appendChild(cartButtonDelete)
+
+                cartItemContainer.appendChild(numbersBettext)
+                cartItemContainer.appendChild(betTitletext)
+                cartItemContainer.appendChild(betPrice)
+
+                cartContainer.appendChild(cartItemContainer)
+
+                return cartContainer
             },
             completeGame: function completeGame(){
                 var game = allGames.filter(function (game) {
@@ -53,13 +85,11 @@
 
                 for (var i = 1; i <= game['max-number']; i++) {
                     var number = Math.ceil(Math.random() * game.range)
-                    console.log('number antes' + number )
                     if (app.numberBetExist(betNumbers, number)) {
                         i--;
-                        console.log('number ' + number )
-                        console.log('i ' + i)
-                    }
-                    betNumbers.push(number)    
+                    }else {
+                        betNumbers.push(number)        
+                    }   
                 }
                 app.colorNumbers()
 
