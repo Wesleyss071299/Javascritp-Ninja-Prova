@@ -142,6 +142,11 @@ header {
 	border-top-left-radius: 10px;
 	width: 317px;
 }
+.cart-body {
+	max-height: 335px;
+	overflow: auto;
+	margin-bottom: 15px;
+}
 
 .cart-footer {
 	display: flex;
@@ -152,6 +157,24 @@ header {
 	border-bottom-right-radius: 10px;
 	height: 96px;
 }
+::-webkit-scrollbar {
+	width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+	background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+	background: #27c383; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+	background: #27c383; 
+  }
 
 /* ===== */
 
@@ -164,6 +187,7 @@ header {
 	font-weight: 550;
 	font-size: 1em;
 	cursor: pointer;
+	outline: none;
 }
 
 .buttons-game {
@@ -239,11 +263,33 @@ header {
 	cursor: pointer;
 	color: #fff;
   }
-  .game-number_selected {
+
+.game-number_selected {
 	background: var(--green-primary);
+}
+
+
+.button-add {
+	display: flex;
+	align-items: center;
+	background-color: #27c383;
+	color: #fff;
+	margin-right: 20px;
+}  
+
+.button-add svg {
+	width: 25px;
+	margin-right: 20px;
+}
+.button-delete {
+	background: url(./trash.svg) no-repeat;
+	width: 45px;
+	height: 35px;
+	cursor: pointer;
+	padding: 0;
+	outline: none;
   }
 
-  
 /* ===== */
 
 
@@ -261,3 +307,26 @@ footer {
 footer p {
 	padding: 28px;
 }
+
+/* ===== */
+
+/* Scroll */
+::-webkit-scrollbar {
+	width: 5px;
+}
+  
+  /* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1; 
+}
+   
+  /* Handle */
+::-webkit-scrollbar-thumb {
+	background: #27c383; 
+}
+  
+  /* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #27c383; 
+}
+/* ===== */

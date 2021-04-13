@@ -92,7 +92,7 @@
 
                 cartButtonDelete.setAttribute('data-button', 'delete')
                 cartButtonDelete.setAttribute('data-value', bet.id)
-                cartButtonDelete.textContent = 'Deletar'
+                cartButtonDelete.setAttribute('class', 'button-delete')
                 numbersBettext.textContent = bet.numbers
                 betTitletext.textContent = bet.type
                 betPrice.textContent = 'R$ ' + bet.price
