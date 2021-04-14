@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
     <title>TGL</title>
 </head>
 <body>
@@ -81,11 +83,13 @@
                     
                 </div>
 
-                <h3 data-cart="total-cart">
-                    <p data-cart="total"></p>
-                </h3>
+                <h2 data-cart="total-cart" class="total-cart invisible">
+                    Cart 
+                    &nbsp;
+                    <span data-cart="total" class="total-cart-number"></span>
+                </h2>
 
-                <div class="cart-footer">
+                <div class="cart-footer invisible" data-cart="footer">
                     <button class="button button-save">
                         Save <svg class="icon-button-save" width="1.25em" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />

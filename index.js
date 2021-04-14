@@ -7,7 +7,8 @@
         var $gameInfo = $('p[data-js="info"]').get();
         var $numbers = $('section[data-js="numbers"]').get();
         var $cart = $('div[data-cart="cart-body"]').get();
-        var $cartTotal = $('p[data-cart="total"]').get()
+        var $cartTotal = $('span[data-cart="total"]').get()
+        var $cartFooter = $('div[data-cart="footer"]').get()
         var allGames = []
         var currentGame = []
         var betNumbers = []
@@ -55,7 +56,14 @@
                     return accumulated + Number(actual.price)
                 }, 0)
 
-                $cartTotal.textContent = 'Total: R$ ' + total
+                $cartTotal.textContent = 'Total: R$ ' + app.parseToReal(total)
+                if (total != 0){
+                    $cartTotal.parentElement.classList.remove('invisible')
+                    $cartFooter.classList.remove('invisible')
+                }else {
+                    $cartTotal.parentElement.classList.add('invisible')
+                    $cartFooter.classList.add('invisible')
+                }
             },
             addCart: function addCart() {
                 app.renderCart(currentGame, betNumbers)
@@ -85,25 +93,33 @@
             renderCartItem: function renderCartItem(bet) {
                 var cartContainer = document.createElement('div')
                 var cartButtonDelete = document.createElement('button')
-                var cartItemContainer = document.createElement('div')
+                var cartInfoContainer = document.createElement('div')
+                var cartPriceContainer = document.createElement('div')
                 var numbersBettext = document.createElement('p')
                 var betTitletext = document.createElement('p')
                 var betPrice = document.createElement('p')
-
+                cartContainer.setAttribute('class', 'cart-item-container')
                 cartButtonDelete.setAttribute('data-button', 'delete')
                 cartButtonDelete.setAttribute('data-value', bet.id)
                 cartButtonDelete.setAttribute('class', 'button-delete')
+
+                betTitletext.style.color = bet.color;
+                cartInfoContainer.setAttribute('class', 'cart-info-container')
+                cartPriceContainer.setAttribute('class', 'cart-price-container')
+                cartInfoContainer.style.borderLeft = '3px ' + bet.color + ' solid'
+ 
                 numbersBettext.textContent = bet.numbers
                 betTitletext.textContent = bet.type
-                betPrice.textContent = 'R$ ' + bet.price
+                betPrice.textContent = 'R$ ' + app.parseToReal(bet.price)
               
                 cartContainer.appendChild(cartButtonDelete)
 
-                cartItemContainer.appendChild(numbersBettext)
-                cartItemContainer.appendChild(betTitletext)
-                cartItemContainer.appendChild(betPrice)
+                cartInfoContainer.appendChild(numbersBettext)
+                cartPriceContainer.appendChild(betTitletext)
+                cartPriceContainer.appendChild(betPrice)
+                cartInfoContainer.appendChild(cartPriceContainer)
 
-                cartContainer.appendChild(cartItemContainer)
+                cartContainer.appendChild(cartInfoContainer)
 
                 return cartContainer
             },
@@ -122,6 +138,9 @@
                 }
                 app.colorNumbers()
 
+            },
+            parseToReal: function parseToReal (value) {
+                return value.toFixed(2).split('.').join(',')
             },
             cleanGame: function cleanGame() {
                 betNumbers = []
