@@ -17,16 +17,16 @@
         return {
             init: function init() {
                 this.gameInfo();
-                this.initEvents();     
+                this.initEvents();
             },
 
             initEvents: function initEvents() {
-                document.addEventListener('click',  function(e) {
+                document.addEventListener('click', function(e) {
 
                     var dataset = e.target.dataset
                     var element = e.target
-                   
-                    if (dataset.gameType) 
+
+                    if (dataset.gameType)
                         return app.setGameType(dataset.gameType)
                     if (dataset.number)
                         return app.selectNumber(dataset.number)
@@ -37,56 +37,60 @@
                     if (dataset.button === 'add-cart')
                         return app.addCart()
                     if (dataset.button === 'delete')
-                        return app.deleteBet(element) 
+                        return app.deleteBet(element)
                 }, true)
             },
             deleteBet: function deleteBet(item) {
-         
-                bets = bets.filter(function (game) {
+
+                bets = bets.filter(function(game) {
                     return game.id != item.dataset.value
-                  })
-              
+                })
+
                 app.getTotalBets(bets)
                 $cart.removeChild(item.parentElement)
-               
+
                 console.log(bets)
 
             },
-            getTotalBets: function getTotalBets(bets){
+            getTotalBets: function getTotalBets(bets) {
                 var total = bets.reduce(function(accumulated, actual) {
                     return accumulated + Number(actual.price)
                 }, 0)
 
                 $cartTotal.textContent = 'Total: R$ ' + app.parseToReal(total)
-                if (total != 0){
+                if (total != 0) {
                     $cartTotal.parentElement.classList.remove('invisible')
                     $cartFooter.classList.remove('invisible')
-                }else {
+                } else {
                     $cartTotal.parentElement.classList.add('invisible')
                     $cartFooter.classList.add('invisible')
                 }
             },
             addCart: function addCart() {
+                if (betNumbers.length !== currentGame['max-number']) {
+                    alert(`Escolha no mínimo ${currentGame['max-number']} números`)
+                    return
+                }
                 app.renderCart(currentGame, betNumbers)
                 app.getTotalBets(bets)
                 app.cleanGame()
             },
 
             renderCart: function renderCart(game, numbers) {
-                allGames.map(function (item) {
+                allGames.map(function(item) {
                     if (item.type === game.type) {
-                      var currentBet = {
-                        id: app.createId(),
-                        type: item.type,
-                        price: item.price,
-                        color: item.color,
-                        numbers: numbers
-                      }
-                      var cartItem = app.renderCartItem(currentBet)
-                      bets.push(currentBet)
-                      $cart.appendChild(cartItem)
+                        var currentBet = {
+                            id: app.createId(),
+                            type: item.type,
+                            price: item.price,
+                            color: item.color,
+                            numbers: numbers
+                        }
+                        var cartItem = app.renderCartItem(currentBet)
+                        bets.push(currentBet)
+                        $cart.appendChild(cartItem)
                     }
-                  })
+                })
             },
             createId: function createId() {
                 return Date.now();
@@ -108,11 +112,11 @@
                 cartInfoContainer.setAttribute('class', 'cart-info-container')
                 cartPriceContainer.setAttribute('class', 'cart-price-container')
                 cartInfoContainer.style.borderLeft = '3px ' + bet.color + ' solid'
- 
+
                 numbersBettext.textContent = bet.numbers
                 betTitletext.textContent = bet.type
                 betPrice.textContent = 'R$ ' + app.parseToReal(bet.price)
-              
+
                 cartContainer.appendChild(cartButtonDelete)
 
                 cartInfoContainer.appendChild(numbersBettext)
@@ -124,8 +128,8 @@
 
                 return cartContainer
             },
-            completeGame: function completeGame(){
-                var game = allGames.filter(function (game) {
+            completeGame: function completeGame() {
+                var game = allGames.filter(function(game) {
                     return game.type === currentGame.type
                 })[0]
 
@@ -133,73 +137,73 @@
                     var number = Math.ceil(Math.random() * game.range)
                     if (app.numberBetExist(betNumbers, number)) {
                         i--;
-                    }else {
-                        betNumbers.push(number)        
-                    }   
+                    } else {
+                        betNumbers.push(number)
+                    }
                 }
                 app.colorNumbers()
 
             },
-            parseToReal: function parseToReal (value) {
+            parseToReal: function parseToReal(value) {
                 return value.toFixed(2).split('.').join(',')
             },
             cleanGame: function cleanGame() {
                 betNumbers = []
                 var $buttonSelected = $('.game-number_selected').get()
                 if ($buttonSelected) {
-                  $buttonSelected.classList.remove('game-number_selected')
-                  cleanGame()
+                    $buttonSelected.classList.remove('game-number_selected')
+                    cleanGame()
                 }
             },
-            colorNumbers : function colorNumbers () {
-                betNumbers.map(function (number) {
-                  var element = $('div[data-number="' + number + '"]').get()
-                  element.classList.add('game-number_selected')  
+            colorNumbers: function colorNumbers() {
+                betNumbers.map(function(number) {
+                    var element = $('div[data-number="' + number + '"]').get()
+                    element.classList.add('game-number_selected')
                 })
             },
-            removeNumber: function removeNumber(number){
+            removeNumber: function removeNumber(number) {
                 var item = $('div[data-number="' + number + '"]').get()
                 item.classList.remove('game-number_selected')
             },
-            numberBetExist: function numberBetExist(array, number){
+            numberBetExist: function numberBetExist(array, number) {
                 return array.some((item) => {
                     return item == number
                 })
             },
-            arrayRemove: function arrayRemove(arr, value) { 
-                return arr.filter(function(ele){ 
-                    return ele != value; 
+            arrayRemove: function arrayRemove(arr, value) {
+                return arr.filter(function(ele) {
+                    return ele != value;
                 });
             },
-            selectNumber : function selectNumber(currentNumber) {
-                var game = allGames.filter( (item) => {
+            selectNumber: function selectNumber(currentNumber) {
+                var game = allGames.filter((item) => {
                     return item.type == currentGame.type
                 })[0]
 
-                if (app.numberBetExist(betNumbers, currentNumber)){
+                if (app.numberBetExist(betNumbers, currentNumber)) {
                     console.log('Item reperido')
                     betNumbers = app.arrayRemove(betNumbers, currentNumber)
                     console.log(betNumbers)
                     app.removeNumber(currentNumber)
-                    return                      
+                    return
                 }
 
-                if (game['max-number'] === betNumbers.length){
+                if (game['max-number'] === betNumbers.length) {
                     var last = betNumbers.slice(-1)[0]
                     betNumbers.pop();
                     betNumbers.push(currentNumber)
                     app.removeNumber(last)
                     app.colorNumbers()
                 }
-                
-                
-                if (game['max-number'] > betNumbers.length){
+
+
+                if (game['max-number'] > betNumbers.length) {
                     betNumbers.push(currentNumber)
                     app.colorNumbers()
                 }
                 console.log(betNumbers)
-               
-                
+
+
             },
 
             gameInfo: function gameInfo() {
@@ -207,62 +211,95 @@
                 ajax.open("GET", "games.json", true);
                 ajax.send();
                 ajax.addEventListener("readystatechange", this.getGameInfo, false);
-                
+
             },
 
             getGameInfo: function getGameInfo() {
                 if (!app.isReady.call(this)) return;
-                var data= JSON.parse(this.responseText);
+                var data = JSON.parse(this.responseText);
                 app.loadGames(data.types)
                 app.createButtonGameInfo(data);
                 app.setGameType(allGames[0].type)
-                
-            },
 
+            },
             setGameType: function setGameType(type) {
-                
+
                 betNumbers = []
+                app.changeButtonGameType(type)
                 currentGame = app.getCurrentGame(type)[0]
                 $gameInfo.textContent = currentGame.description
                 $gameTitle.textContent = currentGame.type
                 app.createButtonsGameBet(currentGame.range);
+
+
+            },
+            
+            getPreviousButtonGame: function getPreviousButtonGame() {
+                return $('[data-game-type-selected="true"]').get()
             },
 
-            getCurrentGame: function getCurrentGame (type) {
+            getCurrentButtonGame: function getCurrentButtonGame(type) {
+                return $('button[data-game-type="' + type + '"]').get()
+            },
+
+            setStyleToPreviusButton: function setStyleToPreviusButton() {
+                app.getPreviousButtonGame().style.color = currentGame.color
+                app.getPreviousButtonGame().style.background = '#FFF'
+                app.getPreviousButtonGame().setAttribute('data-game-type-selected', 'false')
+            },
+
+            styleCurrentButtonGame: function styleCurrentButtonGame(type) {
+                allGames.map(function(game) {
+                    if (game.type === type) {
+                        app.getCurrentButtonGame(type).style.color = '#FFF'
+                        app.getCurrentButtonGame(type).style.background = game.color
+                        app.getCurrentButtonGame(type).setAttribute( 'data-game-type-selected', 'true')
+                    }
+                })
+            },
+
+            changeButtonGameType: function changeButtonGameType(type) {
+                if (app.getPreviousButtonGame()) {
+                    app.setStyleToPreviusButton()
+                }
+                app.styleCurrentButtonGame(type)
+            },
+
+            getCurrentGame: function getCurrentGame(type) {
                 return allGames.filter((item) => {
-                  return item.type === type
+                    return item.type === type
                 })
             },
 
             loadGames: function loadGames(data) {
-                allGames = data.map(function (item, index) {
+                allGames = data.map(function(item, index) {
                     item.type = item.type.split(' ').join('-')
                     return item
-                  })
+                })
             },
 
             createButtonGameInfo: function createButtonGameInfo(data) {
-                    data.types.map(function(item) {
+                data.types.map(function(item) {
                     var $button = document.createElement('button')
-                    $buttonsGame.appendChild($button)
                     var buttonTextNode = document.createTextNode(item.type)
                     $button.appendChild(buttonTextNode)
                     $button.setAttribute('class', 'button choose-game')
                     $button.style.border = 'solid ' + item.color
-                    $button.style.color = item.color  
-                    $button.setAttribute('data-game-type', item.type)         
+                    $button.style.color = item.color
+                    $button.setAttribute('data-game-type', item.type)
+                    $buttonsGame.appendChild($button)
                 })
             },
-            removeChild: function removeChild (parent) {
+            removeChild: function removeChild(parent) {
                 while (parent.firstChild) {
                     parent.removeChild(parent.firstChild);
                 }
-              },
-            createButtonsGameBet: function createButtonsGameBet(max){
+            },
+            createButtonsGameBet: function createButtonsGameBet(max) {
                 if ($numbers.firstChild) {
                     app.removeChild($numbers)
                 }
-                for(var i = 1; i <= max; i++) {
+                for (var i = 1; i <= max; i++) {
                     var $number = document.createElement('div');
                     $number.setAttribute('class', 'game-number')
                     $number.setAttribute('data-number', i)
@@ -280,5 +317,3 @@
     app.init();
 
 })(window.DOM);
-
-
