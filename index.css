@@ -10,6 +10,7 @@
 body {
 	margin: 0;
 	font-family: 'Roboto';
+	color: var(--text-color-secondary);
 }
 
 li {
@@ -40,8 +41,14 @@ h1 {
 	color: var(--text-color-primary);
 }
 
+.game-title {
+	font-weight: bold;
+}
+
 .new-bet-title {
 	text-transform: uppercase;
+	color: var(--text-color-secondary);
+	font-weight: lighter;
 }
 
 

@@ -4,6 +4,7 @@
 
     var app = (function appController() {
         var $buttonsGame = $('[data-js="buttons-game"]').get();
+        var $gameTitle = $('strong[data-js="title"]').get();
         var $gameInfo = $('p[data-js="info"]').get();
         var $numbers = $('section[data-js="numbers"]').get();
         var $cart = $('div[data-cart="cart-body"]').get();
@@ -223,6 +224,7 @@
                 betNumbers = []
                 currentGame = app.getCurrentGame(type)[0]
                 $gameInfo.textContent = currentGame.description
+                $gameTitle.textContent = currentGame.type
                 app.createButtonsGameBet(currentGame.range);
             },
 
