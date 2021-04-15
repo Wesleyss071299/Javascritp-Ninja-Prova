@@ -9,6 +9,7 @@
         var $numbers = $('section[data-js="numbers"]').get();
         var $cart = $('div[data-cart="cart-body"]').get();
         var $cartTotal = $('span[data-cart="total"]').get()
+        var $messageEmptyCart = $('span[data-cart="message-empty-cart"]').get()
         var $cartFooter = $('div[data-cart="footer"]').get()
         var allGames = []
         var currentGame = []
@@ -61,9 +62,12 @@
                 if (total != 0) {
                     $cartTotal.parentElement.classList.remove('invisible')
                     $cartFooter.classList.remove('invisible')
+                    $messageEmptyCart.classList.add('invisible')
                 } else {
                     $cartTotal.parentElement.classList.add('invisible')
                     $cartFooter.classList.add('invisible')
+                    $messageEmptyCart.classList.add('title')
+                    $messageEmptyCart.classList.remove('invisible')
                 }
             },
             addCart: function addCart() {
@@ -132,15 +136,20 @@
                 var game = allGames.filter(function(game) {
                     return game.type === currentGame.type
                 })[0]
-
-                for (var i = 1; i <= game['max-number']; i++) {
+                var  total = game['max-number'] - betNumbers.length
+                console.log('Total ' +total)
+                for (var i = 1; i <= total; i++) {
                     var number = Math.ceil(Math.random() * game.range)
+                   number < 10 ? (number = '0' + number) : number
                     if (app.numberBetExist(betNumbers, number)) {
-                        i--;
-                    } else {
+                        i--
+                    }else{
                         betNumbers.push(number)
                     }
+                    
+                    
                 }
+                console.log('Numeros ' + betNumbers)
                 app.colorNumbers()
 
             },
@@ -166,13 +175,13 @@
                 item.classList.remove('game-number_selected')
             },
             numberBetExist: function numberBetExist(array, number) {
-                return array.some((item) => {
+                return array.some(function(item) {
                     return item == number
                 })
             },
             arrayRemove: function arrayRemove(arr, value) {
-                return arr.filter(function(ele) {
-                    return ele != value;
+                return arr.filter(function(item) {
+                    return item != value;
                 });
             },
             selectNumber: function selectNumber(currentNumber) {
@@ -189,11 +198,7 @@
                 }
 
                 if (game['max-number'] === betNumbers.length) {
-                    var last = betNumbers.slice(-1)[0]
-                    betNumbers.pop();
-                    betNumbers.push(currentNumber)
-                    app.removeNumber(last)
-                    app.colorNumbers()
+                    	alert('Número máximo já selecionado')
                 }
 
 
@@ -279,6 +284,7 @@
             },
 
             createButtonGameInfo: function createButtonGameInfo(data) {
+                console.log(data)
                 data.types.map(function(item) {
                     var $button = document.createElement('button')
                     var buttonTextNode = document.createTextNode(item.type)
@@ -302,7 +308,7 @@
                 for (var i = 1; i <= max; i++) {
                     var $number = document.createElement('div');
                     $number.setAttribute('class', 'game-number')
-                    $number.setAttribute('data-number', i)
+                    $number.setAttribute('data-number', i < 10 ? '0' + i : i)
                     var $numberText = document.createTextNode(i < 10 ? '0' + i : i)
                     $number.appendChild($numberText)
                     $numbers.appendChild($number)

@@ -138,6 +138,9 @@ header {
 /* ===== */
 
 /* Cart */
+.message-empty{
+	margin-left: 20px;	
+}
 
 .cart-container {
 	border: 1px solid #e2e2e2;
